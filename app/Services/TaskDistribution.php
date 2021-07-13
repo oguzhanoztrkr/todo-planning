@@ -15,25 +15,13 @@ class TaskDistribution
     protected $tasks;
 
     /**
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
     protected $devList;
 
     private $maxWorkingTime = 45;
 
-    /**
-     * TaskDistribution constructor.
-     *
-     * @param \Illuminate\Support\Collection|\App\Models\Task[] $tasks
-     * @param \Illuminate\Support\Collection|Dev[]              $devList
-     */
-    public function __construct(Collection $tasks, Collection $devList)
-    {
-        $this->tasks = $tasks;
-        $this->devList = $devList;
-    }
-
-    public function handle()
+    public function handle(): Collection
     {
         $this->prepare();
 
@@ -56,9 +44,10 @@ class TaskDistribution
     /**
      * @param \App\DataObjects\Dev $dev
      * @param \App\Models\Task     $task
-     * @return mixed
+     * @param float                $timeForTask
+     * @return void
      */
-    public function AddTaskToDev(Dev $dev, Task $task, float $timeForTask)
+    public function AddTaskToDev(Dev $dev, Task $task, float $timeForTask): void
     {
         $week = $dev->weeks->last();
         $week->tasks[] = $task->toArray();
@@ -75,7 +64,7 @@ class TaskDistribution
     }
 
     /**
-     * @param \App\Models\Task[] $tasks
+     * @param Collection|\App\Models\Task[] $tasks
      */
     public function distributeTasks($tasks)
     {
@@ -150,11 +139,30 @@ class TaskDistribution
     }
 
     /**
-     * @return array
+     * @param \Illuminate\Support\Collection $tasks
+     * @return TaskDistribution
      */
-    public function getDevList(): array
+    public function setTasks(Collection $tasks): TaskDistribution
+    {
+        $this->tasks = $tasks;
+
+        return $this;
+    }
+
+    public function getDevList(): Collection
     {
         return $this->devList;
+    }
+
+    /**
+     * @param \Illuminate\Support\Collection $devList
+     * @return TaskDistribution
+     */
+    public function setDevList(Collection $devList): TaskDistribution
+    {
+        $this->devList = $devList;
+
+        return $this;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\ValueObjects\TaskType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,7 @@ class TaskSeeder extends Seeder
                 'time'       => $task['sure'],
                 'difficulty' => $task['zorluk'],
                 'title'      => $task['id'],
-                'type'       => 'it',
+                'type'       => TaskType::it()->getValue(),
             ];
         }
 
@@ -35,7 +36,7 @@ class TaskSeeder extends Seeder
                 'time'       => $taskValues['estimated_duration'],
                 'difficulty' => $taskValues['level'],
                 'title'      => $title,
-                'type'       => 'business',
+                'type'       => TaskType::business()->getValue(),
             ];
         }
 

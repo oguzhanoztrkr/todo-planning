@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\TaskDistribution;
 use App\Tasks\BusinessTaskPlanning;
 use App\Tasks\ItTaskPlanning;
 use App\Tasks\TaskPlanning;
@@ -31,6 +32,10 @@ class TaskServiceProvider extends ServiceProvider
             }
 
             return $task;
+        });
+
+        app()->bind('task.distribution', function () {
+            return new TaskDistribution;
         });
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Tasks;
 
-use App\Services\TaskDistribution;
+use App\Facades\TaskDistribution;
 use App\ValueObjects\TaskType;
 use Illuminate\Support\Collection;
 
@@ -26,7 +26,7 @@ abstract class TaskPlanning
         $tasks = $this->getTasks();
         $devList = (new Developers())->all();
 
-        return (new TaskDistribution($tasks, $devList))->handle();
+        return TaskDistribution::setDevList($devList)->setTasks($tasks)->handle();
     }
 
     /**
