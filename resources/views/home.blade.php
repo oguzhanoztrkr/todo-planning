@@ -42,37 +42,43 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
     function taskPlan(type) {
-        $.get('/api/tasks/planning/' + type, function (response) {
-            let message = 'Planlamaya göre ' +response.max_week + ' hafta içerisinde tüm işler tamamlanacaktır.';
-            let tableRows = '';
-            let headerRow = '<td class="border border-green-600">Developer</td>';
-
-            for (let i = 0; i < response.max_week; i++) {
-                headerRow += '<td class="border border-green-600">Hafta '+(i + 1)+'</td>';
-            }
-
-            $(response.plan).each(function(index, plan) {
-                let row = '<tr>';
-                row += '<td>' + plan.title + '</td>';
+        $.ajax({
+            url: '/api/tasks/planning/' + type,
+            success: function (response) {
+                let message = 'Planlamaya göre ' +response.max_week + ' hafta içerisinde tüm işler tamamlanacaktır.';
+                let tableRows = '';
+                let headerRow = '<td class="border border-green-600">Developer</td>';
 
                 for (let i = 0; i < response.max_week; i++) {
-                    const weekPlan = plan.weeks[i];
-                    if (weekPlan) {
-                        const tasks = Object.values(weekPlan.tasks).map((obj) => obj.title + ' (Zorluk : '+obj.difficulty+')').join(', ');
-                        row += '<td class="border border-green-600">' + tasks + '<br><span style="color: red;">Toplam Çalışma Saati : ('+weekPlan.totalTime.toFixed(2)+')</span></td>';
-                    } else {
-                        row += '<td class="border border-green-600">&nbsp;</td>';
-                    }
+                    headerRow += '<td class="border border-green-600">Hafta '+(i + 1)+'</td>';
                 }
 
-                row += '</tr>';
+                $(response.plan).each(function(index, plan) {
+                    let row = '<tr>';
+                    row += '<td>' + plan.title + '</td>';
 
-                tableRows += row;
-            });
+                    for (let i = 0; i < response.max_week; i++) {
+                        const weekPlan = plan.weeks[i];
+                        if (weekPlan) {
+                            const tasks = Object.values(weekPlan.tasks).map((obj) => obj.title + ' (Zorluk : '+obj.difficulty+')').join(', ');
+                            row += '<td class="border border-green-600">' + tasks + '<br><span style="color: red;">Toplam Çalışma Saati : ('+weekPlan.totalTime.toFixed(2)+')</span></td>';
+                        } else {
+                            row += '<td class="border border-green-600">&nbsp;</td>';
+                        }
+                    }
 
-            $('.table-area table thead').html(headerRow)
-            $('.table-area table tbody').html(tableRows)
-            $('.table-area .message').text(message)
+                    row += '</tr>';
+
+                    tableRows += row;
+                });
+
+                $('.table-area table thead').html(headerRow)
+                $('.table-area table tbody').html(tableRows)
+                $('.table-area .message').text(message)
+            },
+            error: function (jqXHR) {
+                alert(jqXHR.responseJSON.message);
+            }
         });
     }
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ValueObjects\TaskType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,8 +36,8 @@ class Task extends Model
         return $this->title;
     }
 
-    public function scopeOfType($query, $type)
+    public function scopeOfType($query, TaskType $taskType)
     {
-        return $query->where('type', $type);
+        return $query->where('type', $taskType->getValue());
     }
 }

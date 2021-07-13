@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\DataObjects\Dev;
-use App\Tasks\TaskGateway;
+use App\Tasks\TaskPlanning;
 
 class TodoPlanningController extends Controller
 {
-    public function index(TaskGateway $taskGateway)
+    public function index(TaskPlanning $taskGateway)
     {
         return response()->json($taskGateway->getComposedTasks());
     }
 
-    public function planning(TaskGateway $taskGateway)
+    public function planning(TaskPlanning $taskGateway)
     {
         $taskPlan = $taskGateway->handle();
 
