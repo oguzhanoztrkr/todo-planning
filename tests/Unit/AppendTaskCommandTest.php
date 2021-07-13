@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AppendTaskCommandTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testAppendTaskSuccess()
     {
         $this->artisan('task:append')
