@@ -20,4 +20,4 @@ Yeni bir görev eklemek için komut satırında `php artisan task:append` komutu
 
 Komut önizlemesi;
 
-![Alt Text](https://media.giphy.com/media/EUl4aveHjRlNCz43tK/giphy.gif)
+![Alt Text](https://media.giphy.com/media/H2W9D3VtEE2T05iBPR/giphy.gif)
