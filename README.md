@@ -15,6 +15,15 @@ Haftalık çalışma süresi 45 saat olarak alınmıştır.
 Çalışan 4 | 1 | 4x
 Çalışan 5 | 1 | 5x
 
+Uygulamayı çalıştırmak için sırasıyla;
+
+- `php artisan migrate --seed`
+- `php artisan serve`
+
+API Endpointler
+
+- /api/todo-planning/business
+- /api/todo-planning/it
 
 Yeni bir görev eklemek için komut satırında `php artisan task:append` komutunu çalıştırdıktan sonra yönergeleri takip etmeniz yeterlidir.
 
