@@ -30,7 +30,7 @@
             <div class="table-area mt-4 p-4">
                 <p class="message"></p>
 
-                <table class="border-collapse border border-green-800 mt-2">
+                <table class="border-collapse border border-green-800 mt-2 w-full">
                     <thead></thead>
                     <tbody></tbody>
                 </table>
@@ -60,7 +60,7 @@
                     for (let i = 0; i < response.max_week; i++) {
                         const weekPlan = plan.weeks[i];
                         if (weekPlan) {
-                            const tasks = Object.values(weekPlan.tasks).map((obj) => obj.title + ' (Zorluk : '+obj.difficulty+')').join(', ');
+                            const tasks = Object.values(weekPlan.tasks).map((obj) => obj.title + ' <br> (Zorluk : '+obj.difficulty+', Tahmini Bitiş Süresi : '+obj.time+', Developer\'ın Bitirebileceği Süre : '+obj.time_for_dev.toFixed(2)+')').join('<br>');
                             row += '<td class="border border-green-600">' + tasks + '<br><span style="color: red;">Toplam Çalışma Saati : ('+weekPlan.totalTime.toFixed(2)+')</span></td>';
                         } else {
                             row += '<td class="border border-green-600">&nbsp;</td>';

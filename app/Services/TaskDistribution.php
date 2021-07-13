@@ -101,6 +101,7 @@ class TaskDistribution
                 }
 
                 $task->assigned = true;
+                $task->time_for_dev = $timeForTask;
                 $this->AddTaskToDev($dev, $task, $timeForTask);
                 $assignedJobCount++;
             }
