@@ -29,4 +29,14 @@ class Task extends Model
     {
         return $this->difficulty;
     }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('type', $type);
+    }
 }
