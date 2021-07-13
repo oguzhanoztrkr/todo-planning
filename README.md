@@ -14,3 +14,10 @@ Haftalık çalışma süresi 45 saat olarak alınmıştır.
 Çalışan 3 | 1 | 3x
 Çalışan 4 | 1 | 4x
 Çalışan 5 | 1 | 5x
+
+
+Yeni bir görev eklemek için komut satırında `php artisan task:append` komutunu çalıştırdıktan sonra yönergeleri takip etmeniz yeterlidir.
+
+Komut önizlemesi;
+
+![Alt Text](https://media.giphy.com/media/EUl4aveHjRlNCz43tK/giphy.gif)
