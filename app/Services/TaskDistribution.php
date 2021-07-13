@@ -41,7 +41,7 @@ class TaskDistribution
 
         $this->optimizeDevList();
 
-        return $this->devList->toArray();
+        return $this->devList;
     }
 
     public function optimizeDevList()
@@ -82,7 +82,7 @@ class TaskDistribution
         $assignedJobCount = 0;
         foreach ($tasks as $key => $task) {
             foreach ($this->devList as $dev) {
-                if (! $this->canItBeDone($dev, $task)) {
+                if (! $this->canItBeDone($dev, $task) || $task->assigned) {
                     continue;
                 }
 
