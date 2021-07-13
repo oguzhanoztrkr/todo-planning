@@ -16,7 +16,11 @@ class BusinessTaskPlanning extends TaskGateway
 
     public function getTasks()
     {
-        return Task::ofType($this->getType())->get();
+        return Task::query()
+                   ->ofType($this->getType())
+                   ->orderByDesc('difficulty')
+                   ->orderByDesc('time')
+                   ->get();
     }
 
     public function compose(Collection $tasks)

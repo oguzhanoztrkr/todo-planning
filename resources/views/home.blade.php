@@ -58,8 +58,8 @@
                 for (let i = 0; i < response.max_week; i++) {
                     const weekPlan = plan.weeks[i];
                     if (weekPlan) {
-                        const tasks = Object.values(weekPlan.tasks).map((obj) => obj.title).join(', ');
-                        row += '<td class="border border-green-600">' + tasks + '</td>';
+                        const tasks = Object.values(weekPlan.tasks).map((obj) => obj.title + ' (Zorluk : '+obj.difficulty+')').join(', ');
+                        row += '<td class="border border-green-600">' + tasks + '<br><span style="color: red;">Toplam Çalışma Saati : ('+weekPlan.totalTime.toFixed(2)+')</span></td>';
                     } else {
                         row += '<td class="border border-green-600">&nbsp;</td>';
                     }
