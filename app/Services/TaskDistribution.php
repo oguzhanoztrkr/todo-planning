@@ -35,6 +35,109 @@ class TaskDistribution
 
     public function handle()
     {
+        $this->prepare();
+
+        $this->distributeTasks($this->tasks);
+
+        $this->optimizeDevList();
+
+        return $this->devList->toArray();
+    }
+
+    public function optimizeDevList()
+    {
+        $this->devList->each(function (Dev $dev) {
+            $dev->weeks = $dev->weeks->reject(function (Week $week) use ($dev) {
+                return $week->totalTime === 0;
+            });
+        });
+    }
+
+    /**
+     * @param \App\DataObjects\Dev $dev
+     * @param \App\Models\Task     $task
+     * @return mixed
+     */
+    public function AddTaskToDev(Dev $dev, Task $task, float $timeForTask)
+    {
+        $week = $dev->weeks->last();
+        $week->tasks[] = $task->toArray();
+        $week->totalTime += $timeForTask;
+    }
+
+    public function createWeek(Dev $dev)
+    {
+        if (! $dev->weeks) {
+            $dev->weeks = collect([]);
+        }
+
+        $dev->weeks->push(new Week);
+    }
+
+    /**
+     * @param \App\Models\Task[] $tasks
+     */
+    public function distributeTasks($tasks)
+    {
+        $assignedJobCount = 0;
+        foreach ($tasks as $key => $task) {
+            foreach ($this->devList as $dev) {
+                if (! $this->canItBeDone($dev, $task)) {
+                    continue;
+                }
+
+                $activeWeekIndex = count($dev->weeks) - 1;
+
+                if ($dev->weeks[$activeWeekIndex]->totalTime == $this->getMaxWorkingTime()) {
+                    $activeWeekIndex++;
+                    $this->createWeek($dev);
+                }
+
+                $week = $dev->weeks[$activeWeekIndex];
+                $timeForTask = $task->getTime() / $dev->difficulty * $task->getDifficulty();
+
+                if (! $this->isGetDifferentTask($week, $timeForTask)) {
+                    continue;
+                }
+
+                $task->assigned = true;
+                $this->AddTaskToDev($dev, $task, $timeForTask);
+                $assignedJobCount++;
+            }
+        }
+
+        /**
+         * @var \Illuminate\Support\Collection $tasks
+         */
+
+        $tasksNotAssigned = $tasks->filter(function (Task $item) {
+            if (! $item->assigned) {
+                return $item;
+            }
+        });
+
+        if (! $assignedJobCount) {
+            $this->createNewWeekForAllDeveloper();
+        }
+
+        if ($tasksNotAssigned->count()) {
+            $this->distributeTasks($tasksNotAssigned);
+        }
+    }
+
+    public function prepare()
+    {
+        /*
+         * initialize first weeks for all developer
+         */
+        $this->createNewWeekForAllDeveloper();
+    }
+
+    public function createNewWeekForAllDeveloper()
+    {
+        foreach ($this->devList as $dev) {
+            $this->createWeek($dev);
+        }
     }
 
     /**
@@ -78,6 +181,6 @@ class TaskDistribution
      */
     public function canItBeDone(Dev $dev, Task $task): bool
     {
-        return $dev->difficulty <= $task->getDifficulty();
+        return $dev->difficulty >= $task->getDifficulty();
     }
 }

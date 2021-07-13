@@ -1,5 +1,6 @@
 # **Proje Hakkında**
 
+Planlamayı görmek için projeyi çalıştırdıktan sonra anasayfa gitmeniz yeterlidir.
 
 Birim zamanda farklı yeteneklere sahip 5 çalışan için işlerin en optimal sürede bitmesi için planlama yapan bir web servis.
 
@@ -17,13 +18,16 @@ Haftalık çalışma süresi 45 saat olarak alınmıştır.
 
 Uygulamayı çalıştırmak için sırasıyla;
 
+- `composer install`
 - `php artisan migrate --seed`
 - `php artisan serve`
 
 API Endpointler
 
-- /api/todo-planning/business
-- /api/todo-planning/it
+- /api/tasks/business
+- /api/tasks/it
+- /api/tasks/planning/business
+- /api/tasks/planning/it
 
 Yeni bir görev eklemek için komut satırında `php artisan task:append` komutunu çalıştırdıktan sonra yönergeleri takip etmeniz yeterlidir.
 

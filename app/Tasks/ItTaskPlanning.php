@@ -7,11 +7,16 @@ use Illuminate\Support\Collection;
 
 class ItTaskPlanning extends TaskGateway
 {
-    public function getTasks()
+    public function getComposedTasks()
     {
         $tasks = Task::ofType($this->getType())->get();
 
         return $this->compose($tasks);
+    }
+
+    public function getTasks()
+    {
+        return Task::ofType($this->getType())->get();
     }
 
     public function compose(Collection $tasks)

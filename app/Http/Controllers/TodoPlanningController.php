@@ -8,6 +8,11 @@ class TodoPlanningController extends Controller
 {
     public function index(TaskGateway $taskGateway)
     {
-        return response()->json($taskGateway->getTasks());
+        return response()->json($taskGateway->getComposedTasks());
+    }
+
+    public function planning(TaskGateway $taskGateway)
+    {
+        return response()->json($taskGateway->handle());
     }
 }

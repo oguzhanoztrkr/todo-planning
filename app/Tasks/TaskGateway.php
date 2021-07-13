@@ -19,7 +19,7 @@ abstract class TaskGateway
         $tasks = $this->getTasks();
         $devList = (new Developers)->all();
 
-        return new TaskDistribution($tasks, $devList);
+        return (new TaskDistribution($tasks, $devList))->handle();
     }
 
     public function getTasks()
