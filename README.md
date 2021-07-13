@@ -18,6 +18,7 @@ Haftalık çalışma süresi 45 saat olarak alınmıştır.
 
 Uygulamayı çalıştırmak için sırasıyla;
 
+- `.env dosyanızı .env.example örneğindeki gibi oluşturup veritabanı bilgilerinizi güncelleyin.`
 - `composer install`
 - `php artisan migrate --seed`
 - `php artisan serve`
