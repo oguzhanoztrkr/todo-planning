@@ -19,18 +19,18 @@ class TaskDistributionTest extends TestCase
     {
         $task = Task::where('difficulty', 5)->first();
         $distribution = new TaskDistributionService(collect($task), $this->devs);
-        $result = $distribution->canItBeDone($this->devs[0], $task);
+        $result = $distribution->canItBeDone($this->devs->first(), $task);
         $this->assertTrue($result);
     }
 
-    public function testIsGetDifferentTask()
+    public function testCanGetDifferentTask()
     {
         $task = Task::where('difficulty', 3)->first();
         $distribution = new TaskDistributionService(collect($task), $this->devs);
 
         $week = new Week([], 40);
 
-        $result = $distribution->isGetDifferentTask($week, $task->getTime());
+        $result = $distribution->canGetDifferentTask($week, $task->getTime());
         $this->assertFalse($result);
     }
 
@@ -41,7 +41,7 @@ class TaskDistributionTest extends TestCase
 
         $week = new Week([], 45);
 
-        $result = $distribution->isGetDifferentTask($week, $task->getTime());
+        $result = $distribution->canGetDifferentTask($week, $task->getTime());
         $this->assertFalse($result);
     }
 

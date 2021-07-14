@@ -47,7 +47,7 @@ class TaskDistribution
      * @param float                $timeForTask
      * @return void
      */
-    public function AddTaskToDev(Dev $dev, Task $task, float $timeForTask): void
+    public function addTaskToDev(Dev $dev, Task $task, float $timeForTask): void
     {
         $week = $dev->weeks->last();
         $week->tasks[] = $task->toArray();
@@ -85,13 +85,13 @@ class TaskDistribution
                 $week = $dev->weeks[$activeWeekIndex];
                 $timeForTask = $task->getTime() / $dev->difficulty * $task->getDifficulty();
 
-                if (! $this->isGetDifferentTask($week, $timeForTask)) {
+                if (! $this->canGetDifferentTask($week, $timeForTask)) {
                     continue;
                 }
 
                 $task->assigned = true;
                 $task->time_for_dev = $timeForTask;
-                $this->AddTaskToDev($dev, $task, $timeForTask);
+                $this->addTaskToDev($dev, $task, $timeForTask);
                 $assignedJobCount++;
             }
         }
@@ -178,7 +178,7 @@ class TaskDistribution
      * @param float                 $timeForJob
      * @return bool
      */
-    public function isGetDifferentTask(Week $week, float $timeForJob): bool
+    public function canGetDifferentTask(Week $week, float $timeForJob): bool
     {
         return $this->getMaxWorkingTime() > ($week->totalTime + $timeForJob);
     }
